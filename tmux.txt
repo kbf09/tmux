@@ -1,0 +1,32 @@
+cat << EOS > ~/.tmux.conf
+# tmuxを256色表示できるようにする
+set-option -g default-terminal screen-256color
+set -g terminal-overrides 'xterm:colors=256'
+
+## Escキーの遅延を解消
+set -s escape-time 0
+
+## status line を更新する間隔を1秒にする
+set-option -g status-interval 1
+set-option -g status-left "Session: #S "
+set-option -g status-justify "centre"
+
+set-window-option -g window-status-format " #I: #W "
+set-window-option -g window-status-current-format "#[fg=colour255,bg=colour27,bold] #I: #W #[default]"
+
+# | でペインを縦に分割する
+bind | split-window -h
+# - でペインを横に分割する
+bind - split-window -v
+
+# 操作系
+## マウス操作を有効化
+set -g mouse on
+bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'copy-mode -e'"
+setw -g mode-keys vi
+
+## Window color
+set -g window-style bg=colour235
+set -g window-active-style bg=colour0
+set-option -g status-right '[%Y-%m-%d(%a) %H:%M]'
+EOS
